@@ -1,70 +1,108 @@
-# Getting Started with Create React App
+## State
+State represents information that a component is in charge of managing that can affect what the component diplays.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The important concept of React component: a component should only manage its own state, but it should not manage its own props - that's why props are read only.
 
-## Available Scripts
+In fact, props of a component is concretely "the state of the another component (parent component)". So props must be managed by their component owner. That's why all React components must act like pure functions with respect to their props (don't mutate directly their props).
 
-In the project directory, you can run:
+### Examples of state
 
-### `npm start`
+- Logged in? - Whether or not we are logged-in has a big affect on what the user sees in an app.
+- User’s details - User details such as name, email and avatar changes the content of your app slightly.
+- Lists of data - Lists of data such as videos on YouTube, products on Amazon, or notifications on Facebook are retrieved from the database and stored as state in a React app. We will store these in arrays so the amount is also part of the state.
+- Open or closed? - The open/closed status of menus and popups in the app should also be stored as state. As the user interacts with the app, the different statuses are going to change.
+- Form data - As users fill in forms in a React app, our code is going to be storing the information they typed in state. This will also allow us to pre-fill the form’s inputs for things like edit forms.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Three questions that help determine if a piece of data is state:
+1. Is it passed in from a parent via props? If so, it probably isn’t state.
+2. Does it remain unchanged over time? If so, it probably isn’t state.
+3. Can you compute it based on any other state or props in your component? If so, it isn’t state.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Build a simple click count
 
-### `npm test`
+### First show that props are read only by passing a prop to App.js via index.js and change it in the render method
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```js
+// src/App.js
+import React, { Component } from 'react';
+import './App.css';
 
-### `npm run build`
+class App extends Component {
+  state = {
+    clickCount: 0
+  }
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  // state should not be mutated directly 
+  clickHandler = () => {
+    this.setState({
+      clickCount: this.state.clickCount + 1
+    });
+  }
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  render() {
+    return (
+      <>
+        <h1>Counter: {this.state.clickCount}</h1>
+        <button onClick={this.clickHandler}>Click me</button>
+      </>
+    )
+  }
+}
 
-### `npm run eject`
+export default App;
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Now let's add a like button to the component
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### Add the button - add the liked to the state - add the likeHandler
+#### add the dynamic text in the button - add the dynamic heading
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```js
+import React, { Component } from 'react';
+import './App.css';
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+class App extends Component {
+  state = {
+    clickCount: 0,
+    liked: false
+  }
 
-## Learn More
+  // 🚨🚨🚨 - if we use previous state we should use a function
+  // https://reactjs.org/docs/state-and-lifecycle.html#state-updates-may-be-asynchronous
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  // state should not be mutated directly
+  clickHandler = () => {
+    // this.setState({
+    //   clickCount: this.state.clickCount + 1
+    // });
+    this.setState((state, props) => ({
+      clickCount: this.state.clickCount + 1
+    }))
+  }
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  likeHandler = () => {
+    // this.setState({
+    //   liked: !this.state.liked
+    // });
+    this.setState((state, props) => ({
+      liked: !this.state.liked
+    }))
+    console.log(this.state.liked);
+  }
 
-### Code Splitting
+  render() {
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    return (
+      <>
+        <h1>Counter: {this.state.clickCount}</h1>
+        <button onClick={this.clickHandler}>Click me</button>
+        <h1>{this.state.liked ? 'I like this component' : 'I don\'t like this component'}</h1>
+        < button onClick={this.likeHandler}>{this.state.liked ? 'Unlike' : 'Like'}</button>
+      </>
+    )
+  }
+}
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+export default App;
+```
