@@ -18,7 +18,8 @@ class App extends React.Component {
 
   addMovie = () => {
     const newMovie = { 'hasOscars': true, 'title': 'Interstellar', 'director': 'Christopher Nolan', 'rate': '8.6', 'id': 31 };
-    // add this movie to the movies array in state
+    // add this movie to the movies array in state - we have to make sure though that we don't mutate the
+    // movies array in state
     // const moviesCopy = this.state.movies.slice();
     // moviesCopy.push(newMovie)
     this.setState((state, props) => ({
@@ -39,6 +40,7 @@ class App extends React.Component {
         </ul> */}
         {/* if there are no movies in the state then display a message*/}
         {this.state.movies.length === 0 && <h2>No movies to display</h2>}
+        {/* the movies from the state are passed as a prop to the MoviesList component */}
         <MoviesList movies={this.state.movies} />
       </div >
     );
