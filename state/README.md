@@ -1,13 +1,13 @@
 # State
 State represents information that a component is in charge of managing that can affect what the component diplays.
 
-The important concept of React component: a component should only manage its own state, but it should not manage its own props - that's why props are read only.
+The important concept of a React component: a component should only manage its own state, but it should not manage its own props - that's why props are read only.
 
 In fact, props of a component is concretely "the state of the another component (parent component)". So props must be managed by their component owner. That's why all React components must act like pure functions with respect to their props (don't mutate directly their props).
 
 ### Examples of state
 
-- Logged in? - Whether or not we are logged-in has a big affect on what the user sees in an app.
+- Logged in? - Whether or not we are logged-in has a big effect on what the user sees in an app.
 - User’s details - User details such as name, email and avatar changes the content of your app slightly.
 - Lists of data - Lists of data such as videos on YouTube, products on Amazon, or notifications on Facebook are retrieved from the database and stored as state in a React app. We will store these in arrays so the amount is also part of the state.
 - Open or closed? - The open/closed status of menus and popups in the app should also be stored as state. As the user interacts with the app, the different statuses are going to change.
