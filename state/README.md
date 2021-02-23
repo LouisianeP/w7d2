@@ -1,4 +1,4 @@
-## State
+# State
 State represents information that a component is in charge of managing that can affect what the component diplays.
 
 The important concept of React component: a component should only manage its own state, but it should not manage its own props - that's why props are read only.
@@ -18,9 +18,7 @@ In fact, props of a component is concretely "the state of the another component 
 2. Does it remain unchanged over time? If so, it probably isn’t state.
 3. Can you compute it based on any other state or props in your component? If so, it isn’t state.
 
-### Build a simple click count
-
-### First show that props are read only by passing a prop to App.js via index.js and change it in the render method
+## Build a simple click count
 
 ```js
 // src/App.js
